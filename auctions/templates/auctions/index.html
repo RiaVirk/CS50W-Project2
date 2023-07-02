@@ -1,7 +1,52 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+<h2>Active Listings</h2>
 
-    TODO
+{% comment %} <form action="{% url 'displayCategory' %}" method="POST">
+    {% csrf_token %}
+    
+        <span class="col-3">Choose a Category: </span>
+      <select class="form-select col-3" name="category" id="category">
+        <option selected class="text-white-50 bg-dark">Categories </option>
+        {% for cat in categories %}
+        <option value="{{ cat }}"> {{ cat }} </option>
+        {% endfor %}
+        
+      </select>
+      <button type="submit" class="btn btn-info col-3">Select</button>
+  
+</form>   {% endcomment %}
+<form class="row g-3" action="{% url 'displayCategory' %}" method="POST">
+    {% csrf_token %}
+    <div class="col-auto">
+      <input type="text" readonly class="form-control-plaintext" value="Choose a Category: ">
+    </div>
+    <div class="col-4">
+        <select class="form-select" name="category" id="category">
+            <option selected class="text-white-50 bg-dark">Categories </option>
+            {% for cat in categories %}
+            <option value="{{ cat }}"> {{ cat }} </option>
+            {% endfor %}
+          </select>
+    </div>
+    <div class="col-3">
+        <button type="submit" class="btn btn-info">Select</button>
+    </div>
+  </form>
+
+    <div class="row">
+    {% for listing in Listings %}
+
+        <div class="card m-3" style="width: 18rem;">
+            <img src="{{listing.imageUrl}} " class="card-img-top" alt=" {{ listing.title }} ">
+            <div class="card-body">
+                <h5 class="card-title"> {{ listing.title }} </h5>
+                <p class="card-text"> {{ listing.description }} </p>
+                <a href="{% url 'listing' id=listing.id %}" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+  
+    {% endfor %}
+</div>
 {% endblock %}
