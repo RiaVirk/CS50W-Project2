@@ -3,8 +3,8 @@
 {% block body %}
 <h2>Watch List</h2>
 
-    <div class="row">
-    {% for listing in Listings %}
+<div class="row">
+    {% for listing in listings %}
 
         <div class="card m-3" style="width: 18rem;">
             <img src="{{listing.imageUrl}} " class="card-img-top" alt=" {{ listing.title }} ">
