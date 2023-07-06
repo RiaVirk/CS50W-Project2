@@ -1,0 +1,31 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+{% load l10n %}
+
+{% block body %}
+    <h2 class="text-center title my-4 p-3 bg-info bg-opacity-10 border border-info rounded">Closed Auctions</h2>
+
+    <div class="row  justify-content-center">
+  {% for listing in listing %}
+      <div class="card text-center m-4 shadow-sm col-lg-2 col-md-4 col-sm-6">
+        <h4 class="card-header">
+          {{ listing.title }}
+        </h4>
+        <div class="card-body">
+          <img class="img-fluid" src="{% if listing.imageURL %}{{ listing.imageURL }}{% else %} https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930  {% endif %}" alt="Photo of {{ listing.title }}">  
+          <p class="card-text text-wrap my-4" style="font-size: 12px;">{{ listing.description }}</p>
+          <p><strong>${{ listing.current_price|intcomma }}</strong></p>
+        </div>
+        <div class="fw-bolder fs-4">Winner: {{ listing.bid_winner}} </div>
+        <div>
+          <a href="{% url 'listing' id=listing.id %}" class="btn btn-primary my-3">Product Details</a>
+        </div>
+        <div class="card-footer">
+        <span class="fw-bolder  "> {{ listing.num_bids }} bid(s)</span>
+        </div>
+      </div>
+  {% empty %}
+    <h4>No listing Available !</h4>
+  {% endfor %}
+    </div>
+{% endblock %}

@@ -1,52 +1,35 @@
 {% extends "auctions/layout.html" %}
+{% load humanize %}
+{% load l10n %}
+
+
+{% block title %} 
+Active Listing
+{% endblock %}
 
 {% block body %}
-<h2>Active Listings</h2>
+    <h2 class="text-center title my-4 p-3 bg-info bg-opacity-10 border border-info rounded">Active Listings</h2>
 
-{% comment %} <form action="{% url 'displayCategory' %}" method="POST">
-    {% csrf_token %}
-    
-        <span class="col-3">Choose a Category: </span>
-      <select class="form-select col-3" name="category" id="category">
-        <option selected class="text-white-50 bg-dark">Categories </option>
-        {% for cat in categories %}
-        <option value="{{ cat }}"> {{ cat }} </option>
-        {% endfor %}
-        
-      </select>
-      <button type="submit" class="btn btn-info col-3">Select</button>
-  
-</form>   {% endcomment %}
-<form class="row g-3" action="{% url 'displayCategory' %}" method="POST">
-    {% csrf_token %}
-    <div class="col-auto">
-      <input type="text" readonly class="form-control-plaintext" value="Choose a Category: ">
-    </div>
-    <div class="col-4">
-        <select class="form-select" name="category" id="category">
-            <option selected class="text-white-50 bg-dark">Categories </option>
-            {% for cat in categories %}
-            <option value="{{ cat }}"> {{ cat }} </option>
-            {% endfor %}
-          </select>
-    </div>
-    <div class="col-3">
-        <button type="submit" class="btn btn-info">Select</button>
-    </div>
-  </form>
-
-    <div class="row">
-    {% for listing in Listings %}
-
-        <div class="card m-3" style="width: 18rem;">
-            <img src="{{listing.imageUrl}} " class="card-img-top" alt=" {{ listing.title }} ">
-            <div class="card-body">
-                <h5 class="card-title"> {{ listing.title }} </h5>
-                <p class="card-text"> {{ listing.description }} </p>
-                <a href="{% url 'listing' id=listing.id %}" class="btn btn-primary">Details</a>
-            </div>
+    <div class="row  justify-content-center">
+  {% for listings in listings %}
+      <div class="card text-center m-4 shadow-sm col-lg-2 col-md-4 col-sm-6">
+        <h4 class="card-header">
+          {{ listings.title }}
+        </h4>
+        <div class="card-body">
+          <img class="img-fluid" src="{% if listings.imageURL %}{{ listings.imageURL }}{% else %} https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930  {% endif %}" alt="Photo of {{ listing.title }}">  
+          <p class="card-text text-wrap my-4" style="font-size: 12px;">{{ listings.description }}</p>
+          <p><strong>${{ listings.current_price|intcomma }}</strong></p>
         </div>
-  
-    {% endfor %}
-</div>
+        <div>
+          <a href="{% url 'listing' id=listings.id %}" class="btn btn-primary my-3">Product Details</a>
+        </div>
+        <div class="card-footer">
+        <span class="fw-bolder  "> {{ listings.num_bids }} bid(s)</span>
+        </div>
+      </div>
+  {% empty %}
+    <h4>No Listings Available !</h4>
+  {% endfor %}
+    </div>
 {% endblock %}
